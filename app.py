@@ -12,14 +12,14 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Load environment variables from a .env file
+
 load_dotenv()
 
-# Get the OpenAI API key from the environment variables
 api_key = os.getenv("OPENAI_API_KEY")
+db_url = os.getenv("DB_URL")
 
-# Connect to the SQLite database
-connect = sqlite3.connect('/Users/ezekielmauricio/Documents/dev/db/Chinook_Sqlite.sqlite')
+# Connect to db
+connect = sqlite3.connect(db_url)
 
 def get_table_names():
     """Get all table names from the database"""
@@ -53,9 +53,7 @@ databaseSchema_toString = "\n".join(
     f"Table: {table['table_name']}\nColumns: {', '.join(table['column_names'])}" for table in databaseSchema
 )
 
-# print(databaseSchema_toString)
 
-# Define a tool for the AI to use when answering database questions
 tools = [
     {
         "type": "function",
@@ -80,8 +78,10 @@ tools = [
         }
     }
 ]
+@st.cache_data
 def ask_database(query):
-    with sqlite3.connect('/Users/ezekielmauricio/Documents/dev/db/Chinook_Sqlite.sqlite') as conn:
+    """Execute SQL query and return a DataFrame."""
+    with sqlite3.connect(db_url) as conn:
         df = pd.read_sql_query(query, conn)
     return df
 
@@ -114,54 +114,56 @@ st.title("Database Query App")
 question = st.text_input("Ask a question about the database:")
         
 def is_data_visualizable(df):
-    # Check if there are at least 2 rows and 2 columns
-    if df.shape[0] < 2 or df.shape[1] < 2:
-        return False
-    
-    # Check if at least one column is numeric
+    """Check if data can produce at least one plot type."""
     numeric_columns = df.select_dtypes(include=['int64', 'float64']).columns
-    if len(numeric_columns) == 0:
-        return False
-    
-    return True
-def generate_visualization(df):
+    return len(numeric_columns) > 0, len(numeric_columns) > 1
+
+
+def generate_visualization(df, plot_type, placeholder):
+    """Generate visualization based on the plot type."""
     numeric_columns = df.select_dtypes(include=['int64', 'float64']).columns
     
-    if len(numeric_columns) == 1:
-        # If only one numeric column, create a bar chart
+    if plot_type == "Bar Chart" and len(numeric_columns) > 0:
         plt.figure(figsize=(10, 6))
         df.plot(kind='bar', y=numeric_columns[0], ax=plt.gca())
         plt.title(f'{numeric_columns[0]} by Index')
         plt.tight_layout()
-        return plt
-    else:
-        # If multiple numeric columns, create a scatter plot of the first two
+        placeholder.pyplot(plt)
+    elif plot_type == "Scatter Plot" and len(numeric_columns) > 1:
         plt.figure(figsize=(10, 6))
         df.plot(kind='scatter', x=numeric_columns[0], y=numeric_columns[1], ax=plt.gca())
         plt.title(f'{numeric_columns[1]} vs {numeric_columns[0]}')
         plt.tight_layout()
-        return plt
+        placeholder.pyplot(plt)
+
+
 
 if question:
     try:
-        sql_query = get_sql_query(question)
-        
+        sql_query = get_sql_query(question)  # Assume get_sql_query is defined elsewhere
+        results = ask_database(sql_query)
         st.subheader("SQL Query:")
         st.code(sql_query, language="sql")
-        
-        results = ask_database(sql_query)
-        
         st.subheader("Query Results:")
-        if not results.empty:
-            st.dataframe(results)
-            
-            if is_data_visualizable(results):
-                st.subheader("Data Visualization:")
-                fig = generate_visualization(results)
-                st.pyplot(fig)
-        else:
-            st.write("No results found.")
+        st.dataframe(results)
+        
+        can_plot_bar, can_plot_scatter = is_data_visualizable(results)
+        
+        if can_plot_bar or can_plot_scatter:
+            # Setup layout: columns for control and visualization
+            col1, col2 = st.columns([1, 3])  # Adjust column width ratio as needed
+            with col1:
+                plot_types = []
+                if can_plot_bar:
+                    plot_types.append("Bar Chart")
+                if can_plot_scatter:
+                    plot_types.append("Scatter Plot")
+                plot_type = st.radio("Select Plot Type:", plot_types)
+
+            with col2:
+                generate_visualization(results, plot_type, col2)
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
+
 # Close the database connection when the app is done
 connect.close()
