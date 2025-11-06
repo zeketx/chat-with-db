@@ -233,11 +233,11 @@ def generate_fallback_query(question: str, database_schema: str) -> str:
     if not mentioned_table:
         mentioned_table = table_matches[0]
     
-    # Check for LIMIT clause
-    limit_match = re.search(r'(\d+)\s+(?:last|first|recent)?|(?:last|first|recent)\s+(\d+)', question_lower)
+    # Check for LIMIT clause (simplified regex to avoid ReDoS)
+    limit_match = re.search(r'\b(\d{1,6})\b', question_lower)
     limit_clause = ""
-    if limit_match:
-        limit_num = limit_match.group(1) or limit_match.group(2)
+    if limit_match and any(word in question_lower for word in ['last', 'first', 'recent', 'limit']):
+        limit_num = limit_match.group(1)
         limit_clause = f" LIMIT {limit_num}"
     
     # Check for ordering
@@ -252,6 +252,12 @@ def generate_fallback_query(question: str, database_schema: str) -> str:
 
 def execute_query(conn: sqlite3.Connection, query: str) -> List[Dict[str, Any]]:
     """Execute SQL query safely and return results as a list of dictionaries"""
+    # Basic validation: only allow SELECT, PRAGMA queries for safety
+    query_upper = query.strip().upper()
+    if not (query_upper.startswith('SELECT') or query_upper.startswith('PRAGMA')):
+        logger.error(f"Rejected non-SELECT query: {query}")
+        raise HTTPException(status_code=400, detail="Only SELECT queries are allowed")
+    
     try:
         logger.info(f"Executing query: {query}")
         cursor = conn.execute(query)
@@ -261,7 +267,7 @@ def execute_query(conn: sqlite3.Connection, query: str) -> List[Dict[str, Any]]:
         return results
     except sqlite3.Error as e:
         logger.error(f"Error executing query: {e}")
-        raise HTTPException(status_code=400, detail=f"Query execution error: {str(e)}")
+        raise HTTPException(status_code=400, detail="Query execution error")
 
 
 # API Endpoints
@@ -291,7 +297,7 @@ async def health():
         with get_db_connection() as conn:
             conn.execute("SELECT 1")
     except Exception as e:
-        db_status = f"error: {str(e)}"
+        db_status = "error"
         logger.error(f"Health check failed: {e}")
     
     # Check OpenAI availability
