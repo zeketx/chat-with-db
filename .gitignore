@@ -10,6 +10,10 @@ __pycache__/
 *.pyo
 *.pyd
 
+# Database files (test databases)
+test_database.db
+*.db
+
 # IDE-specific files (optional, depending on your IDE)
 .vscode/
 .idea/
