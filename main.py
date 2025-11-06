@@ -9,6 +9,8 @@ and returns structured JSON responses.
 import logging
 import sqlite3
 import os
+import re
+import json
 from typing import Optional, List, Dict, Any
 from contextlib import contextmanager
 import pandas as pd
@@ -116,6 +118,10 @@ def get_table_names(conn: sqlite3.Connection) -> List[str]:
 def get_column_names(conn: sqlite3.Connection, table_name: str) -> List[str]:
     """Get all column names for a specific table"""
     try:
+        # Validate table name to prevent SQL injection
+        if not re.match(r'^[a-zA-Z0-9_]+$', table_name):
+            logger.error(f"Invalid table name: {table_name}")
+            return []
         cursor = conn.execute(f"PRAGMA table_info('{table_name}');")
         column_names = [row[1] for row in cursor.fetchall()]
         logger.info(f"Table '{table_name}' has columns: {column_names}")
@@ -189,7 +195,9 @@ def generate_sql_query(question: str, database_schema: str) -> str:
         
         message = chat_completion.choices[0].message
         if message.tool_calls and len(message.tool_calls) > 0:
-            query = eval(message.tool_calls[0].function.arguments)['query']
+            # Safely parse JSON instead of using eval()
+            arguments = json.loads(message.tool_calls[0].function.arguments)
+            query = arguments['query']
             logger.info(f"Generated SQL query: {query}")
             return query
         else:
@@ -209,7 +217,6 @@ def generate_fallback_query(question: str, database_schema: str) -> str:
     question_lower = question.lower()
     
     # Extract table names from schema
-    import re
     table_matches = re.findall(r'Table: (\w+)', database_schema)
     
     if not table_matches:
@@ -350,6 +357,11 @@ async def upload_csv(file: UploadFile = File(...), table_name: str = "uploaded_d
     """
     logger.info(f"Received CSV upload: {file.filename}, target table: {table_name}")
     
+    # Validate table name to prevent SQL injection
+    if not re.match(r'^[a-zA-Z0-9_]+$', table_name):
+        logger.error(f"Invalid table name: {table_name}")
+        raise HTTPException(status_code=400, detail="Invalid table name. Use only letters, numbers, and underscores.")
+    
     try:
         # Read CSV content
         content = await file.read()
@@ -361,10 +373,8 @@ async def upload_csv(file: UploadFile = File(...), table_name: str = "uploaded_d
         
         # Create table in database
         with get_db_connection() as conn:
-            # Drop table if exists
-            conn.execute(f"DROP TABLE IF EXISTS {table_name}")
-            
-            # Create table from DataFrame
+            # pandas to_sql safely handles table creation with if_exists='replace'
+            # This avoids the need for DROP TABLE which could be vulnerable
             df.to_sql(table_name, conn, index=False, if_exists='replace')
             conn.commit()
             
