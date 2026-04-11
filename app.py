@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 load_dotenv()
 
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("OPENAI_API_KEY") 
 db_url = os.getenv("DB_URL")
 
 # Connect to db
