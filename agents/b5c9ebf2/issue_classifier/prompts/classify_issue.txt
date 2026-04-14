@@ -1,0 +1,57 @@
+/classify_issue {
+  "number": 4,
+  "title": "Add /schema endpoint to expose database structure",
+  "body": "                                                                                                               \n  Users querying /chat often don't know what tables or columns exist in the connected SQLite database, which     \n  leads to vague questions and poor SQL generation. We should expose a read-only endpoint that returns the\n  database schema so clients (and humans) can discover what's queryable.                                         \n                                                        \n  Requirements:                                                                                                  \n  - Add a new GET /schema endpoint to main.py.\n  - Response should return a JSON object listing each table and its columns (name + type).                       \n  - Use the existing SQLite connection logic — do not introduce a new DB client.          \n  - Handle the case where the database is empty or unreachable with a clear error response.                      \n                                                                                                                 \n  Example response:                                                                                              \n  {                                                                                                              \n    \"tables\": [                                                                                                  \n      {                                                 \n        \"name\": \"films\",\n        \"columns\": [    \n          {\"name\": \"title\", \"type\": \"TEXT\"},\n          {\"name\": \"director\", \"type\": \"TEXT\"},                                                                  \n          {\"name\": \"release_year\", \"type\": \"INTEGER\"}\n        ]                                                                                                        \n      }                                                                                                          \n    ]\n  }                                                                                                              \n                                                        \n  Acceptance criteria:\n  - curl http://localhost:8000/schema returns valid JSON matching the shape above.\n  - Endpoint is documented in API_DOCUMENTATION.md.                                                              \n  - No changes to existing endpoints.",
+  "state": "OPEN",
+  "author": {
+    "id": "MDQ6VXNlcjI4MjczMzI3",
+    "login": "zeketx",
+    "name": "Ezekiel Mauricio",
+    "is_bot": false
+  },
+  "assignees": [],
+  "labels": [],
+  "milestone": null,
+  "comments": [
+    {
+      "id": "IC_kwDOMyKH5M78xXVt",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "❌ Health check completed: UNHEALTHY",
+      "createdAt": "2026-04-14T01:50:38Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xYMd",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "❌ Health check completed: UNHEALTHY",
+      "createdAt": "2026-04-14T01:51:51Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xes9",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "✅ Health check completed: HEALTHY",
+      "createdAt": "2026-04-14T02:00:42Z",
+      "updatedAt": null
+    }
+  ],
+  "createdAt": "2026-04-14T01:47:41Z",
+  "updatedAt": "2026-04-14T02:00:42Z",
+  "closedAt": null,
+  "url": "https://github.com/zeketx/chat-with-db/issues/4"
+}

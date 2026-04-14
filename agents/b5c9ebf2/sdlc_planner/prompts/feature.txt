@@ -1,0 +1,29 @@
+/feature Add /schema endpoint to expose database structure:                                                                                                                
+  Users querying /chat often don't know what tables or columns exist in the connected SQLite database, which     
+  leads to vague questions and poor SQL generation. We should expose a read-only endpoint that returns the
+  database schema so clients (and humans) can discover what's queryable.                                         
+                                                        
+  Requirements:                                                                                                  
+  - Add a new GET /schema endpoint to main.py.
+  - Response should return a JSON object listing each table and its columns (name + type).                       
+  - Use the existing SQLite connection logic — do not introduce a new DB client.          
+  - Handle the case where the database is empty or unreachable with a clear error response.                      
+                                                                                                                 
+  Example response:                                                                                              
+  {                                                                                                              
+    "tables": [                                                                                                  
+      {                                                 
+        "name": "films",
+        "columns": [    
+          {"name": "title", "type": "TEXT"},
+          {"name": "director", "type": "TEXT"},                                                                  
+          {"name": "release_year", "type": "INTEGER"}
+        ]                                                                                                        
+      }                                                                                                          
+    ]
+  }                                                                                                              
+                                                        
+  Acceptance criteria:
+  - curl http://localhost:8000/schema returns valid JSON matching the shape above.
+  - Endpoint is documented in API_DOCUMENTATION.md.                                                              
+  - No changes to existing endpoints.

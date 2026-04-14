@@ -1,0 +1,15 @@
+/find_plan_file Plan created at `specs/add-schema-endpoint.md`. Here's a summary:
+
+**Work done:**
+- Read `main.py` to understand existing patterns: `get_db_connection()` context manager, `get_column_names()` using `PRAGMA table_info()`, existing Pydantic models, and all four current endpoints.
+- Read `API_DOCUMENTATION.md` to understand the doc structure and where to add the new section.
+- Confirmed no existing tests, no `specs/` files, and no new dependencies needed.
+- Created `specs/add-schema-endpoint.md` with the full implementation plan.
+
+**Key design decisions captured in the plan:**
+- Adds a `get_column_info()` helper (alongside, not replacing, `get_column_names()`) so the `/chat` AI path has zero regressions.
+- Reuses `get_db_connection()`, `get_table_names()`, and `PRAGMA table_info()` — no new DB client introduced.
+- Three new Pydantic models: `ColumnInfo`, `TableInfo`, `SchemaResponse` — consistent with existing model style.
+- Empty database returns `{"tables": []}` (not an error); missing DB file returns HTTP 500.
+- Updates root `/` listing and `API_DOCUMENTATION.md` as required by acceptance criteria.
+- End-to-end validation commands included that create a real test DB, start the server, assert the schema shape programmatically, and verify no regressions on existing endpoints.
