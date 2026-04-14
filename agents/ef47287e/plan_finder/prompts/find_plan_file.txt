@@ -1,0 +1,17 @@
+/find_plan_file Plan created at `specs/add-schema-endpoint.md`. Here's a summary of what was done:
+
+**Research findings:**
+- `main.py` already has `get_db_connection()`, `get_table_names()`, and `get_column_names()` — all reusable
+- `PRAGMA table_info()` already used internally returns both column name (`row[1]`) and type (`row[2]`), so no new DB logic is needed
+- Error handling pattern in `/chat` and `/health` is the model to follow for the new endpoint
+- No new dependencies required
+
+**Plan covers:**
+- **`get_column_info()`** — new helper wrapping existing `PRAGMA table_info` logic, returns `[{"name": ..., "type": ...}]`
+- **3 new Pydantic models** — `ColumnInfo`, `TableInfo`, `SchemaResponse` added after existing models
+- **`GET /schema` route** — uses existing `get_db_connection()`, returns `SchemaResponse`, handles empty DB (200) and unreachable DB (500)
+- **Root endpoint update** — adds `/schema` to the endpoints dict
+- **`test_main.py`** — new test file with 4 test cases using in-memory SQLite fixtures
+- **`API_DOCUMENTATION.md`** — new "Schema Endpoint" section with curl example and response shape
+
+**Spec path:** `specs/add-schema-endpoint.md`

@@ -1,0 +1,283 @@
+2026-04-13 21:44:18 - INFO - ADW Logger initialized - ID: ef47287e
+2026-04-13 21:44:18 - DEBUG - Log file: /Users/ezekielmauricio/Documents/dev/code/apps/agents/chat_with_db/agents/ef47287e/adw_plan_build/execution.log
+2026-04-13 21:44:18 - INFO - ADW ID: ef47287e
+2026-04-13 21:44:19 - DEBUG - issue: {
+  "number": 4,
+  "title": "Add /schema endpoint to expose database structure",
+  "body": "                                                                                                               \n  Users querying /chat often don't know what tables or columns exist in the connected SQLite database, which     \n  leads to vague questions and poor SQL generation. We should expose a read-only endpoint that returns the\n  database schema so clients (and humans) can discover what's queryable.                                         \n                                                        \n  Requirements:                                                                                                  \n  - Add a new GET /schema endpoint to main.py.\n  - Response should return a JSON object listing each table and its columns (name + type).                       \n  - Use the existing SQLite connection logic — do not introduce a new DB client.          \n  - Handle the case where the database is empty or unreachable with a clear error response.                      \n                                                                                                                 \n  Example response:                                                                                              \n  {                                                                                                              \n    \"tables\": [                                                                                                  \n      {                                                 \n        \"name\": \"films\",\n        \"columns\": [    \n          {\"name\": \"title\", \"type\": \"TEXT\"},\n          {\"name\": \"director\", \"type\": \"TEXT\"},                                                                  \n          {\"name\": \"release_year\", \"type\": \"INTEGER\"}\n        ]                                                                                                        \n      }                                                                                                          \n    ]\n  }                                                                                                              \n                                                        \n  Acceptance criteria:\n  - curl http://localhost:8000/schema returns valid JSON matching the shape above.\n  - Endpoint is documented in API_DOCUMENTATION.md.                                                              \n  - No changes to existing endpoints.",
+  "state": "OPEN",
+  "author": {
+    "id": "MDQ6VXNlcjI4MjczMzI3",
+    "login": "zeketx",
+    "name": "Ezekiel Mauricio",
+    "is_bot": false
+  },
+  "assignees": [],
+  "labels": [],
+  "milestone": null,
+  "comments": [
+    {
+      "id": "IC_kwDOMyKH5M78xXVt",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "❌ Health check completed: UNHEALTHY",
+      "createdAt": "2026-04-14T01:50:38Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xYMd",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "❌ Health check completed: UNHEALTHY",
+      "createdAt": "2026-04-14T01:51:51Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xes9",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "✅ Health check completed: HEALTHY",
+      "createdAt": "2026-04-14T02:00:42Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xn1i",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_ops: ✅ Starting ADW workflow",
+      "createdAt": "2026-04-14T02:12:39Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xoA_",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_ops: ✅ Issue classified as: /feature",
+      "createdAt": "2026-04-14T02:12:54Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xoTL",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_ops: ✅ Working on branch: feature-4-b5c9ebf2-add-schema-endpoint",
+      "createdAt": "2026-04-14T02:13:15Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xoUq",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_sdlc_planner: ✅ Building implementation plan",
+      "createdAt": "2026-04-14T02:13:17Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xp8Q",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_sdlc_planner: ✅ Implementation plan created",
+      "createdAt": "2026-04-14T02:15:10Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xqJC",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_ops: ✅ Plan file created: specs/add-schema-endpoint.md",
+      "createdAt": "2026-04-14T02:15:23Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xqKi",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_sdlc_planner: ✅ Committing plan",
+      "createdAt": "2026-04-14T02:15:25Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xqnP",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_sdlc_implementor: ✅ Implementing solution",
+      "createdAt": "2026-04-14T02:15:53Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xsA1",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_sdlc_implementor: ✅ Solution implemented",
+      "createdAt": "2026-04-14T02:17:24Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xsBr",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_sdlc_implementor: ✅ Committing implementation",
+      "createdAt": "2026-04-14T02:17:25Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xsYj",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_ops: ✅ Creating pull request",
+      "createdAt": "2026-04-14T02:17:48Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xs3b",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_ops: ✅ Pull request created: https://github.com/zeketx/chat-with-db/pull/5",
+      "createdAt": "2026-04-14T02:18:20Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78xs4Y",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "b5c9ebf2_ops: ✅ ADW workflow completed successfully",
+      "createdAt": "2026-04-14T02:18:21Z",
+      "updatedAt": null
+    },
+    {
+      "id": "IC_kwDOMyKH5M78yA-U",
+      "author": {
+        "id": null,
+        "login": "zeketx",
+        "name": null,
+        "is_bot": false
+      },
+      "body": "Previous ADW run (adw_id b5c9ebf2, PR #5) failed: the implementor committed planning artifacts under agents/b5c9ebf2/ and the spec file specs/add-schema-endpoint.md, but never modified main.py. Calling GET /schema returns 404 because no route was added.\n\nRequired for this run:\n- Add a new GET /schema route to main.py (not a new file — modify the existing FastAPI app)\n- Reuse the existing SQLite connection pattern in main.py (see the connection logic used by /chat around line 320)\n- Reuse the existing get_database_schema() helper at main.py:134 which already reads table + column info from SQLite — wrap its output in the response shape below\n- Return JSON in this exact shape:\n  {\n    \"tables\": [\n      {\"name\": \"Album\", \"columns\": [{\"name\": \"AlbumId\", \"type\": \"INTEGER\"}]}\n    ]\n  }\n- Handle DB-unreachable case with a 500 and a clear error message\n- Update API_DOCUMENTATION.md with the new endpoint\n- Verify by running: python main.py, then curl http://localhost:8000/schema | jq — confirm non-empty tables array before committing\n\nDo NOT commit only agent output files. The PR must include a diff to main.py.",
+      "createdAt": "2026-04-14T02:43:23Z",
+      "updatedAt": null
+    }
+  ],
+  "createdAt": "2026-04-14T01:47:41Z",
+  "updatedAt": "2026-04-14T02:43:23Z",
+  "closedAt": null,
+  "url": "https://github.com/zeketx/chat-with-db/issues/4"
+}
+2026-04-13 21:44:20 - DEBUG - issue_template_request: {
+  "agent_name": "issue_classifier",
+  "slash_command": "/classify_issue",
+  "args": [
+    "{\n  \"number\": 4,\n  \"title\": \"Add /schema endpoint to expose database structure\",\n  \"body\": \"                                                                                                               \\n  Users querying /chat often don't know what tables or columns exist in the connected SQLite database, which     \\n  leads to vague questions and poor SQL generation. We should expose a read-only endpoint that returns the\\n  database schema so clients (and humans) can discover what's queryable.                                         \\n                                                        \\n  Requirements:                                                                                                  \\n  - Add a new GET /schema endpoint to main.py.\\n  - Response should return a JSON object listing each table and its columns (name + type).                       \\n  - Use the existing SQLite connection logic — do not introduce a new DB client.          \\n  - Handle the case where the database is empty or unreachable with a clear error response.                      \\n                                                                                                                 \\n  Example response:                                                                                              \\n  {                                                                                                              \\n    \\\"tables\\\": [                                                                                                  \\n      {                                                 \\n        \\\"name\\\": \\\"films\\\",\\n        \\\"columns\\\": [    \\n          {\\\"name\\\": \\\"title\\\", \\\"type\\\": \\\"TEXT\\\"},\\n          {\\\"name\\\": \\\"director\\\", \\\"type\\\": \\\"TEXT\\\"},                                                                  \\n          {\\\"name\\\": \\\"release_year\\\", \\\"type\\\": \\\"INTEGER\\\"}\\n        ]                                                                                                        \\n      }                                                                                                          \\n    ]\\n  }                                                                                                              \\n                                                        \\n  Acceptance criteria:\\n  - curl http://localhost:8000/schema returns valid JSON matching the shape above.\\n  - Endpoint is documented in API_DOCUMENTATION.md.                                                              \\n  - No changes to existing endpoints.\",\n  \"state\": \"OPEN\",\n  \"author\": {\n    \"id\": \"MDQ6VXNlcjI4MjczMzI3\",\n    \"login\": \"zeketx\",\n    \"name\": \"Ezekiel Mauricio\",\n    \"is_bot\": false\n  },\n  \"assignees\": [],\n  \"labels\": [],\n  \"milestone\": null,\n  \"comments\": [\n    {\n      \"id\": \"IC_kwDOMyKH5M78xXVt\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"❌ Health check completed: UNHEALTHY\",\n      \"createdAt\": \"2026-04-14T01:50:38Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xYMd\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"❌ Health check completed: UNHEALTHY\",\n      \"createdAt\": \"2026-04-14T01:51:51Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xes9\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"✅ Health check completed: HEALTHY\",\n      \"createdAt\": \"2026-04-14T02:00:42Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xn1i\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_ops: ✅ Starting ADW workflow\",\n      \"createdAt\": \"2026-04-14T02:12:39Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xoA_\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_ops: ✅ Issue classified as: /feature\",\n      \"createdAt\": \"2026-04-14T02:12:54Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xoTL\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_ops: ✅ Working on branch: feature-4-b5c9ebf2-add-schema-endpoint\",\n      \"createdAt\": \"2026-04-14T02:13:15Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xoUq\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_sdlc_planner: ✅ Building implementation plan\",\n      \"createdAt\": \"2026-04-14T02:13:17Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xp8Q\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_sdlc_planner: ✅ Implementation plan created\",\n      \"createdAt\": \"2026-04-14T02:15:10Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xqJC\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_ops: ✅ Plan file created: specs/add-schema-endpoint.md\",\n      \"createdAt\": \"2026-04-14T02:15:23Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xqKi\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_sdlc_planner: ✅ Committing plan\",\n      \"createdAt\": \"2026-04-14T02:15:25Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xqnP\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_sdlc_implementor: ✅ Implementing solution\",\n      \"createdAt\": \"2026-04-14T02:15:53Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xsA1\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_sdlc_implementor: ✅ Solution implemented\",\n      \"createdAt\": \"2026-04-14T02:17:24Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xsBr\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_sdlc_implementor: ✅ Committing implementation\",\n      \"createdAt\": \"2026-04-14T02:17:25Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xsYj\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_ops: ✅ Creating pull request\",\n      \"createdAt\": \"2026-04-14T02:17:48Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xs3b\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_ops: ✅ Pull request created: https://github.com/zeketx/chat-with-db/pull/5\",\n      \"createdAt\": \"2026-04-14T02:18:20Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78xs4Y\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"b5c9ebf2_ops: ✅ ADW workflow completed successfully\",\n      \"createdAt\": \"2026-04-14T02:18:21Z\",\n      \"updatedAt\": null\n    },\n    {\n      \"id\": \"IC_kwDOMyKH5M78yA-U\",\n      \"author\": {\n        \"id\": null,\n        \"login\": \"zeketx\",\n        \"name\": null,\n        \"is_bot\": false\n      },\n      \"body\": \"Previous ADW run (adw_id b5c9ebf2, PR #5) failed: the implementor committed planning artifacts under agents/b5c9ebf2/ and the spec file specs/add-schema-endpoint.md, but never modified main.py. Calling GET /schema returns 404 because no route was added.\\n\\nRequired for this run:\\n- Add a new GET /schema route to main.py (not a new file — modify the existing FastAPI app)\\n- Reuse the existing SQLite connection pattern in main.py (see the connection logic used by /chat around line 320)\\n- Reuse the existing get_database_schema() helper at main.py:134 which already reads table + column info from SQLite — wrap its output in the response shape below\\n- Return JSON in this exact shape:\\n  {\\n    \\\"tables\\\": [\\n      {\\\"name\\\": \\\"Album\\\", \\\"columns\\\": [{\\\"name\\\": \\\"AlbumId\\\", \\\"type\\\": \\\"INTEGER\\\"}]}\\n    ]\\n  }\\n- Handle DB-unreachable case with a 500 and a clear error message\\n- Update API_DOCUMENTATION.md with the new endpoint\\n- Verify by running: python main.py, then curl http://localhost:8000/schema | jq — confirm non-empty tables array before committing\\n\\nDo NOT commit only agent output files. The PR must include a diff to main.py.\",\n      \"createdAt\": \"2026-04-14T02:43:23Z\",\n      \"updatedAt\": null\n    }\n  ],\n  \"createdAt\": \"2026-04-14T01:47:41Z\",\n  \"updatedAt\": \"2026-04-14T02:43:23Z\",\n  \"closedAt\": null,\n  \"url\": \"https://github.com/zeketx/chat-with-db/issues/4\"\n}"
+  ],
+  "adw_id": "ef47287e",
+  "model": "sonnet"
+}
+2026-04-13 21:44:31 - DEBUG - issue_response: {
+  "output": "/feature",
+  "success": true,
+  "session_id": "2d9636e0-1282-4a9d-9989-916008948215"
+}
+2026-04-13 21:44:31 - INFO - issue_command: /feature
+2026-04-13 21:44:49 - INFO - Created branch: feature-4-ef47287e-add-schema-endpoint
+2026-04-13 21:44:49 - INFO - Working on branch: feature-4-ef47287e-add-schema-endpoint
+2026-04-13 21:44:51 - INFO - 
+=== Building implementation plan ===
+2026-04-13 21:44:52 - DEBUG - issue_plan_template_request: {
+  "agent_name": "sdlc_planner",
+  "slash_command": "/feature",
+  "args": [
+    "Add /schema endpoint to expose database structure:                                                                                                                \n  Users querying /chat often don't know what tables or columns exist in the connected SQLite database, which     \n  leads to vague questions and poor SQL generation. We should expose a read-only endpoint that returns the\n  database schema so clients (and humans) can discover what's queryable.                                         \n                                                        \n  Requirements:                                                                                                  \n  - Add a new GET /schema endpoint to main.py.\n  - Response should return a JSON object listing each table and its columns (name + type).                       \n  - Use the existing SQLite connection logic — do not introduce a new DB client.          \n  - Handle the case where the database is empty or unreachable with a clear error response.                      \n                                                                                                                 \n  Example response:                                                                                              \n  {                                                                                                              \n    \"tables\": [                                                                                                  \n      {                                                 \n        \"name\": \"films\",\n        \"columns\": [    \n          {\"name\": \"title\", \"type\": \"TEXT\"},\n          {\"name\": \"director\", \"type\": \"TEXT\"},                                                                  \n          {\"name\": \"release_year\", \"type\": \"INTEGER\"}\n        ]                                                                                                        \n      }                                                                                                          \n    ]\n  }                                                                                                              \n                                                        \n  Acceptance criteria:\n  - curl http://localhost:8000/schema returns valid JSON matching the shape above.\n  - Endpoint is documented in API_DOCUMENTATION.md.                                                              \n  - No changes to existing endpoints."
+  ],
+  "adw_id": "ef47287e",
+  "model": "sonnet"
+}
+2026-04-13 21:46:39 - DEBUG - issue_plan_response: {
+  "output": "Plan created at `specs/add-schema-endpoint.md`. Here's a summary of what was done:\n\n**Research findings:**\n- `main.py` already has `get_db_connection()`, `get_table_names()`, and `get_column_names()` — all reusable\n- `PRAGMA table_info()` already used internally returns both column name (`row[1]`) and type (`row[2]`), so no new DB logic is needed\n- Error handling pattern in `/chat` and `/health` is the model to follow for the new endpoint\n- No new dependencies required\n\n**Plan covers:**\n- **`get_column_info()`** — new helper wrapping existing `PRAGMA table_info` logic, returns `[{\"name\": ..., \"type\": ...}]`\n- **3 new Pydantic models** — `ColumnInfo`, `TableInfo`, `SchemaResponse` added after existing models\n- **`GET /schema` route** — uses existing `get_db_connection()`, returns `SchemaResponse`, handles empty DB (200) and unreachable DB (500)\n- **Root endpoint update** — adds `/schema` to the endpoints dict\n- **`test_main.py`** — new test file with 4 test cases using in-memory SQLite fixtures\n- **`API_DOCUMENTATION.md`** — new \"Schema Endpoint\" section with curl example and response shape\n\n**Spec path:** `specs/add-schema-endpoint.md`",
+  "success": true,
+  "session_id": "88436a47-ee1b-4f78-bc55-bf05b72f52c4"
+}
+2026-04-13 21:46:39 - DEBUG - issue_plan_response.output: Plan created at `specs/add-schema-endpoint.md`. Here's a summary of what was done:
+
+**Research findings:**
+- `main.py` already has `get_db_connection()`, `get_table_names()`, and `get_column_names()` — all reusable
+- `PRAGMA table_info()` already used internally returns both column name (`row[1]`) and type (`row[2]`), so no new DB logic is needed
+- Error handling pattern in `/chat` and `/health` is the model to follow for the new endpoint
+- No new dependencies required
+
+**Plan covers:**
+- **`get_column_info()`** — new helper wrapping existing `PRAGMA table_info` logic, returns `[{"name": ..., "type": ...}]`
+- **3 new Pydantic models** — `ColumnInfo`, `TableInfo`, `SchemaResponse` added after existing models
+- **`GET /schema` route** — uses existing `get_db_connection()`, returns `SchemaResponse`, handles empty DB (200) and unreachable DB (500)
+- **Root endpoint update** — adds `/schema` to the endpoints dict
+- **`test_main.py`** — new test file with 4 test cases using in-memory SQLite fixtures
+- **`API_DOCUMENTATION.md`** — new "Schema Endpoint" section with curl example and response shape
+
+**Spec path:** `specs/add-schema-endpoint.md`
+2026-04-13 21:46:40 - INFO - 
+=== Finding plan file ===
+2026-04-13 21:46:48 - INFO - plan_file_path: specs/add-schema-endpoint.md
+2026-04-13 21:46:49 - INFO - 
+=== Committing plan ===
