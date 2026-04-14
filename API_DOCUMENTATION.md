@@ -171,6 +171,51 @@ curl -X POST http://localhost:8000/chat \
   -d '{"message": "Show me all employees"}'
 ```
 
+### 5. Schema Endpoint
+
+**GET** `/schema`
+
+Returns the full structure of the connected SQLite database — every table with its column names and declared types. Use this endpoint to discover what data is queryable before composing a `/chat` request.
+
+**Example Request:**
+```bash
+curl http://localhost:8000/schema
+```
+
+**Example Response:**
+```json
+{
+  "tables": [
+    {
+      "name": "users",
+      "columns": [
+        {"name": "id", "type": "INTEGER"},
+        {"name": "name", "type": "TEXT"},
+        {"name": "email", "type": "TEXT"},
+        {"name": "created_at", "type": "TEXT"}
+      ]
+    },
+    {
+      "name": "orders",
+      "columns": [
+        {"name": "id", "type": "INTEGER"},
+        {"name": "user_id", "type": "INTEGER"},
+        {"name": "total", "type": "REAL"}
+      ]
+    }
+  ]
+}
+```
+
+**Empty database response (HTTP 200):**
+```json
+{"tables": []}
+```
+
+**Error cases:**
+- `500 Internal Server Error` — database file is unreadable or corrupted (permissions error)
+- Note: SQLite creates an empty file when `DB_URL` points to a non-existent path, so that case returns `{"tables": []}` rather than an error
+
 ## Natural Language Processing
 
 The API supports two modes of operation:

@@ -1,0 +1,16 @@
+/find_plan_file Plan created. Here's a summary:
+
+**Work done:**
+- Read `main.py`, `API_DOCUMENTATION.md`, and `README.md` to understand existing patterns (DB connection context manager, `get_table_names()`, `get_column_names()` using `PRAGMA table_info()`, Pydantic response models, logging conventions, endpoint structure)
+- Identified that `get_column_names()` (line 118) already uses `PRAGMA table_info()` but only captures index 1 (name); index 2 (type) is available for free
+- Identified that `get_database_schema()` (line 134) is the existing analog — the new endpoint follows the same shape but adds types and uses proper Pydantic models
+
+**Plan file:** `specs/feature-schema-endpoint.md`
+
+**Key decisions captured in the plan:**
+- Add `get_column_info()` helper reusing the exact same `PRAGMA table_info()` query, returning `{name, type}` pairs
+- Three new Pydantic models: `ColumnInfo`, `TableInfo`, `SchemaResponse`
+- Endpoint returns `{"tables": []}` for empty DBs (not an error — SQLite behavior)
+- DB unreachable → inherits the existing `HTTPException(500)` from `get_db_connection()` at no extra cost
+- Update root `/` endpoint's advertised endpoints dict + `API_DOCUMENTATION.md`
+- No new libraries needed

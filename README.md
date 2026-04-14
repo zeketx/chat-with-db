@@ -112,4 +112,23 @@ curl -X POST "http://localhost:8000/upload-csv?table_name=employees" \
 
 For complete API documentation, see [API_DOCUMENTATION.md](API_DOCUMENTATION.md).
 
+## AI Developer Workflow (ADW)
+
+This repo includes a self-building pipeline powered by Claude Code. Comment `adw` on any GitHub issue and an autonomous agent will:
+
+1. **Classify** the issue (`/feature`, `/bug`, or `/chore`)
+2. **Plan** — write a detailed implementation spec to `specs/`
+3. **Implement** — read the spec and edit the codebase
+4. **Commit + PR** — open a pull request linked to the issue
+
+See `adws/README.md` for setup and usage. A complete example run that built the `GET /schema` endpoint (PR #7) is preserved in `agents/68c4cc48/` — including the raw Claude Code prompts, tool calls, and streaming JSONL output from each agent.
+
+```bash
+# Trigger the workflow on an issue
+uv run adws/adw_plan_build.py <issue_number>
+
+# Or start continuous monitoring (polls every 20s)
+uv run adws/trigger_cron.py
+```
+
 ## Project Structure

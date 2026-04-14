@@ -84,6 +84,20 @@ class ChatResponse(BaseModel):
         }
 
 
+class ColumnInfo(BaseModel):
+    name: str
+    type: str
+
+
+class TableInfo(BaseModel):
+    name: str
+    columns: List[ColumnInfo]
+
+
+class SchemaResponse(BaseModel):
+    tables: List[TableInfo]
+
+
 # Database utility functions
 @contextmanager
 def get_db_connection():
@@ -128,6 +142,21 @@ def get_column_names(conn: sqlite3.Connection, table_name: str) -> List[str]:
         return column_names
     except sqlite3.Error as e:
         logger.error(f"Error fetching column names for table '{table_name}': {e}")
+        return []
+
+
+def get_column_info(conn: sqlite3.Connection, table_name: str) -> List[Dict[str, str]]:
+    """Get column names and types for a specific table"""
+    try:
+        if not re.match(r'^[a-zA-Z0-9_]+$', table_name):
+            logger.error(f"Invalid table name: {table_name}")
+            return []
+        cursor = conn.execute(f"PRAGMA table_info('{table_name}');")
+        column_info = [{"name": row[1], "type": row[2]} for row in cursor.fetchall()]
+        logger.info(f"Table '{table_name}' column info: {column_info}")
+        return column_info
+    except sqlite3.Error as e:
+        logger.error(f"Error fetching column info for table '{table_name}': {e}")
         return []
 
 
@@ -288,7 +317,8 @@ async def root():
         "endpoints": {
             "/chat": "POST - Send natural language queries",
             "/upload-csv": "POST - Upload CSV data to create temporary table",
-            "/health": "GET - Health check"
+            "/health": "GET - Health check",
+            "/schema": "GET - Retrieve database schema (tables and columns)"
         }
     }
 
@@ -315,6 +345,28 @@ async def health():
         "database": db_status,
         "openai": openai_status
     }
+
+
+@app.get("/schema", response_model=SchemaResponse)
+async def schema():
+    """Return the full structure of the connected database as JSON."""
+    logger.info("Schema endpoint accessed")
+    try:
+        with get_db_connection() as conn:
+            table_names = get_table_names(conn)
+            if not table_names:
+                return SchemaResponse(tables=[])
+            tables = [
+                TableInfo(name=t, columns=[ColumnInfo(**col) for col in get_column_info(conn, t)])
+                for t in table_names
+            ]
+            logger.info(f"Returning schema with {len(tables)} table(s)")
+            return SchemaResponse(tables=tables)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected error in schema endpoint: {e}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
 @app.post("/chat", response_model=ChatResponse)
