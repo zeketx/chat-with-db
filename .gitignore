@@ -21,3 +21,8 @@ test_database.db
 # Operating system files
 .DS_Store
 Thumbs.db
+
+# ADW agent run artifacts (ignore future runs, preserve portfolio example)
+agents/*
+!agents/README.md
+!agents/68c4cc48/
