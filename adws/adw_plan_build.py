@@ -33,21 +33,21 @@ import os
 import logging
 from typing import Tuple, Optional, Union
 from dotenv import load_dotenv
-from data_types import (
+from adw_modules.data_types import (
     AgentTemplateRequest,
     GitHubIssue,
     AgentPromptResponse,
     IssueClassSlashCommand,
 )
-from agent import execute_template
-from github import (
+from adw_modules.agent import execute_template
+from adw_modules.github import (
     extract_repo_path,
     fetch_issue,
     make_issue_comment,
     mark_issue_in_progress,
     get_repo_url,
 )
-from utils import make_adw_id, setup_logger
+from adw_modules.utils import make_adw_id, setup_logger
 
 # Agent name constants
 AGENT_PLANNER = "sdlc_planner"

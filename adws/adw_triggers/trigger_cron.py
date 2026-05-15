@@ -29,7 +29,12 @@ from typing import Dict, Set, Optional
 import schedule
 from dotenv import load_dotenv
 
-from github import fetch_open_issues, fetch_issue_comments, get_repo_url, extract_repo_path
+# Add parent directory to sys.path to find adw_modules
+adw_dir = Path(__file__).parent.parent
+if str(adw_dir) not in sys.path:
+    sys.path.insert(0, str(adw_dir))
+
+from adw_modules.github import fetch_open_issues, fetch_issue_comments, get_repo_url, extract_repo_path
 
 # Load environment variables from current or parent directories
 load_dotenv()
@@ -94,7 +99,8 @@ def should_process_issue(issue_number: int) -> bool:
 def trigger_adw_workflow(issue_number: int) -> bool:
     """Trigger the ADW plan and build workflow for a specific issue."""
     try:
-        script_path = Path(__file__).parent / "adw_plan_build.py"
+        # adw_plan_build.py is in the parent directory (adws/)
+        script_path = adw_dir / "adw_plan_build.py"
         
         print(f"INFO: Triggering ADW workflow for issue #{issue_number}")
         
@@ -105,7 +111,7 @@ def trigger_adw_workflow(issue_number: int) -> bool:
             cmd,
             capture_output=True,
             text=True,
-            cwd=script_path.parent
+            cwd=adw_dir
         )
         
         if result.returncode == 0:

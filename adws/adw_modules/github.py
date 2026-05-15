@@ -18,7 +18,7 @@ import sys
 import os
 import json
 from typing import Dict, List, Optional
-from data_types import GitHubIssue, GitHubIssueListItem
+from .data_types import GitHubIssue, GitHubIssueListItem
 
 
 def get_github_env() -> Optional[dict]:

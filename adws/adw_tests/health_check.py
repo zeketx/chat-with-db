@@ -30,11 +30,16 @@ from datetime import datetime
 from pathlib import Path
 import argparse
 
+# Add parent directory to sys.path to find adw_modules
+adw_dir = Path(__file__).parent.parent
+if str(adw_dir) not in sys.path:
+    sys.path.insert(0, str(adw_dir))
+
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
-# Import git repo functions from github module
-from github import get_repo_url, extract_repo_path, make_issue_comment
+# Import git repo functions from adw_modules.github module
+from adw_modules.github import get_repo_url, extract_repo_path, make_issue_comment
 
 # Load environment variables
 load_dotenv()

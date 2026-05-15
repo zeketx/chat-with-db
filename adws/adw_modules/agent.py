@@ -7,7 +7,7 @@ import json
 import re
 from typing import Optional, List, Dict, Any, Tuple
 from dotenv import load_dotenv
-from data_types import (
+from .data_types import (
     AgentPromptRequest,
     AgentPromptResponse,
     AgentTemplateRequest,

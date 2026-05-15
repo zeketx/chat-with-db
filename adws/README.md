@@ -41,10 +41,10 @@ cd adws/
 uv run adw_plan_build.py 123
 
 # Run continuous monitoring (polls every 20 seconds)
-uv run trigger_cron.py
+uv run adw_triggers/trigger_cron.py
 
 # Start webhook server (for instant GitHub events)
-uv run trigger_webhook.py
+uv run adw_triggers/trigger_webhook.py
 ```
 
 ## Script Usage Guide
@@ -75,13 +75,13 @@ plan_file_path: specs/add-user-authentication-system-plan.md
 Pull request created: https://github.com/owner/repo/pull/789
 ```
 
-### trigger_cron.py - Automated Monitoring
+### adw_triggers/trigger_cron.py - Automated Monitoring
 
 Continuously monitors GitHub for new issues or "adw" comments.
 
 ```bash
 # Start monitoring
-uv run trigger_cron.py
+uv run adw_triggers/trigger_cron.py
 
 # Processes issues when:
 # - New issue has no comments
@@ -100,16 +100,16 @@ sudo systemctl enable adw-cron
 sudo systemctl start adw-cron
 ```
 
-### trigger_webhook.py - GitHub Webhook Server
+### adw_triggers/trigger_webhook.py - GitHub Webhook Server
 
 Receives real-time GitHub events for instant processing.
 
 ```bash
 # Start webhook server (default port 8001)
-uv run trigger_webhook.py
+uv run adw_triggers/trigger_webhook.py
 
 # Custom port
-PORT=3000 uv run trigger_webhook.py
+PORT=3000 uv run adw_triggers/trigger_webhook.py
 
 # Configure GitHub webhook:
 # URL: https://your-server.com/gh-webhook
@@ -156,7 +156,7 @@ uv run adw_plan_build.py 789
 ### Enable automatic processing
 ```bash
 # Start cron monitoring
-uv run trigger_cron.py
+uv run adw_triggers/trigger_cron.py
 # New issues are processed automatically
 # Users can comment "adw" to trigger processing
 ```
@@ -164,7 +164,7 @@ uv run trigger_cron.py
 ### Deploy webhook for instant response
 ```bash
 # Start webhook server
-uv run trigger_webhook.py
+uv run adw_triggers/trigger_webhook.py
 # Configure in GitHub settings
 # Issues processed immediately on creation
 ```
@@ -242,9 +242,9 @@ agents/
 ## Technical Details
 
 ### Core Components
-- `agent.py` - Claude Code CLI integration
-- `data_types.py` - Pydantic models for type safety
-- `github.py` - GitHub API operations
+- `adw_modules/agent.py` - Claude Code CLI integration
+- `adw_modules/data_types.py` - Pydantic models for type safety
+- `adw_modules/github.py` - GitHub API operations
 - `adw_plan_build.py` - Main workflow orchestration (plan & build)
 
 ### Branch Naming

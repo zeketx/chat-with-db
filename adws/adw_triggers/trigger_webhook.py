@@ -20,10 +20,17 @@ Environment Requirements:
 import os
 import subprocess
 import sys
+from pathlib import Path
 from fastapi import FastAPI, Request
 from dotenv import load_dotenv
 import uvicorn
-from utils import make_adw_id
+
+# Add parent directory to sys.path to find adw_modules
+adw_dir = Path(__file__).parent.parent
+if str(adw_dir) not in sys.path:
+    sys.path.insert(0, str(adw_dir))
+
+from adw_modules.utils import make_adw_id
 
 # Load environment variables
 load_dotenv()
@@ -78,11 +85,10 @@ async def github_webhook(request: Request):
             adw_id = make_adw_id()
             
             # Build command to run adw_plan_build.py with adw_id
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            project_root = os.path.dirname(script_dir)
-            trigger_script = os.path.join(script_dir, "adw_plan_build.py")
+            project_root = adw_dir.parent
+            trigger_script = adw_dir / "adw_plan_build.py"
             
-            cmd = ["uv", "run", trigger_script, str(issue_number), adw_id]
+            cmd = ["uv", "run", str(trigger_script), str(issue_number), adw_id]
             
             print(f"Launching background process: {' '.join(cmd)} (reason: {trigger_reason})")
             
@@ -127,16 +133,15 @@ async def health():
     """Health check endpoint - runs comprehensive system health check."""
     try:
         # Run the health check script
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        health_check_script = os.path.join(script_dir, "health_check.py")
+        health_check_script = adw_dir / "adw_tests" / "health_check.py"
         
         # Run health check with timeout
         result = subprocess.run(
-            ["uv", "run", health_check_script],
+            ["uv", "run", str(health_check_script)],
             capture_output=True,
             text=True,
             timeout=30,
-            cwd=script_dir
+            cwd=adw_dir
         )
         
         # Print the health check output for debugging
