@@ -11,7 +11,6 @@ from .data_types import (
     AgentPromptRequest,
     AgentPromptResponse,
     AgentTemplateRequest,
-    ClaudeCodeResultMessage,
 )
 
 # Load environment variables
