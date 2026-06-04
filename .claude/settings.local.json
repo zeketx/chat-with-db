@@ -2,7 +2,16 @@
   "permissions": {
     "allow": [
       "Bash(git fetch:*)",
-      "Bash(curl -s http://localhost:8000/schema)"
+      "Bash(curl -s http://localhost:8000/schema)",
+      "Bash(curl -s http://localhost:8000/health)",
+      "Bash(curl -s --max-time 5 http://localhost:8000/health)",
+      "Bash(curl -s --max-time 5 http://localhost:8000/)",
+      "Bash(tmux kill-session *)",
+      "Bash(kill -9 89714)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "Bash(timeout 10 sh ./scripts/start.sh 300s)",
+      "Bash(echo \"EXIT: $?\")"
     ]
   }
 }

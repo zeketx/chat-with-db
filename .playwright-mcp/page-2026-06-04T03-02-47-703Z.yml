@@ -1,0 +1,129 @@
+- generic [ref=e3]:
+  - generic:
+    - img
+  - generic [ref=e4]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - heading "Chat with Database API 1.0.0 OAS 3.1" [level=2] [ref=e9]:
+          - text: Chat with Database API
+          - generic [ref=e10]:
+            - generic [ref=e12]: 1.0.0
+            - generic [ref=e14]: OAS 3.1
+        - link "/openapi.json" [ref=e15] [cursor=pointer]:
+          - /url: /openapi.json
+          - generic [ref=e16]: /openapi.json
+      - paragraph [ref=e19]: API for querying databases using natural language
+    - generic [ref=e24]:
+      - heading "default Collapse operation" [level=3] [ref=e25] [cursor=pointer]:
+        - link "default" [ref=e26]:
+          - /url: "#/default"
+        - button "Collapse operation" [expanded] [ref=e27]:
+          - img [ref=e28]
+      - generic [ref=e31]:
+        - generic [ref=e34] [cursor=pointer]:
+          - button "get /" [ref=e35]:
+            - generic [ref=e36]: GET
+            - link / [ref=e38]:
+              - /url: "#/default/root__get"
+            - generic [ref=e39]: Root
+          - generic "Copy to clipboard"
+          - button "get /" [ref=e42]:
+            - img [ref=e43]
+        - generic [ref=e47] [cursor=pointer]:
+          - button "get /health" [ref=e48]:
+            - generic [ref=e49]: GET
+            - link "/health" [ref=e51]:
+              - /url: "#/default/health_health_get"
+            - generic [ref=e52]: Health
+          - generic "Copy to clipboard"
+          - button "get /health" [ref=e55]:
+            - img [ref=e56]
+        - generic [ref=e60] [cursor=pointer]:
+          - button "get /schema" [ref=e61]:
+            - generic [ref=e62]: GET
+            - link "/schema" [ref=e64]:
+              - /url: "#/default/schema_schema_get"
+            - generic [ref=e65]: Schema
+          - generic "Copy to clipboard"
+          - button "get /schema" [ref=e68]:
+            - img [ref=e69]
+        - generic [ref=e73] [cursor=pointer]:
+          - button "post /chat" [ref=e74]:
+            - generic [ref=e75]: POST
+            - link "/chat" [ref=e77]:
+              - /url: "#/default/chat_chat_post"
+            - generic [ref=e78]: Chat
+          - generic "Copy to clipboard"
+          - button "post /chat" [ref=e81]:
+            - img [ref=e82]
+        - generic [ref=e86] [cursor=pointer]:
+          - button "post /upload-csv" [ref=e87]:
+            - generic [ref=e88]: POST
+            - link "/upload-csv" [ref=e90]:
+              - /url: "#/default/upload_csv_upload_csv_post"
+            - generic [ref=e91]: Upload Csv
+          - generic "Copy to clipboard"
+          - button "post /upload-csv" [ref=e94]:
+            - img [ref=e95]
+    - generic [ref=e99]:
+      - heading "Schemas" [level=4] [ref=e100] [cursor=pointer]:
+        - button "Schemas" [expanded] [ref=e101]:
+          - generic [ref=e102]: Schemas
+          - img [ref=e103]
+      - generic [ref=e105]:
+        - article [ref=e106]:
+          - generic [ref=e107]:
+            - button "Body_upload_csv_upload_csv_post" [ref=e108] [cursor=pointer]:
+              - generic [ref=e110]: Body_upload_csv_upload_csv_post
+              - img [ref=e112]
+            - button "Expand all" [ref=e114] [cursor=pointer]
+            - strong [ref=e115]: object
+        - article [ref=e116]:
+          - generic [ref=e117]:
+            - button "ChatRequest" [ref=e118] [cursor=pointer]:
+              - generic [ref=e120]: ChatRequest
+              - img [ref=e122]
+            - button "Expand all" [ref=e124] [cursor=pointer]
+            - strong [ref=e125]: object
+        - article [ref=e126]:
+          - generic [ref=e127]:
+            - button "ChatResponse" [ref=e128] [cursor=pointer]:
+              - generic [ref=e130]: ChatResponse
+              - img [ref=e132]
+            - button "Expand all" [ref=e134] [cursor=pointer]
+            - strong [ref=e135]: object
+        - article [ref=e136]:
+          - generic [ref=e137]:
+            - button "ColumnInfo" [ref=e138] [cursor=pointer]:
+              - generic [ref=e140]: ColumnInfo
+              - img [ref=e142]
+            - button "Expand all" [ref=e144] [cursor=pointer]
+            - strong [ref=e145]: object
+        - article [ref=e146]:
+          - generic [ref=e147]:
+            - button "HTTPValidationError" [ref=e148] [cursor=pointer]:
+              - generic [ref=e150]: HTTPValidationError
+              - img [ref=e152]
+            - button "Expand all" [ref=e154] [cursor=pointer]
+            - strong [ref=e155]: object
+        - article [ref=e156]:
+          - generic [ref=e157]:
+            - button "SchemaResponse" [ref=e158] [cursor=pointer]:
+              - generic [ref=e160]: SchemaResponse
+              - img [ref=e162]
+            - button "Expand all" [ref=e164] [cursor=pointer]
+            - strong [ref=e165]: object
+        - article [ref=e166]:
+          - generic [ref=e167]:
+            - button "TableInfo" [ref=e168] [cursor=pointer]:
+              - generic [ref=e170]: TableInfo
+              - img [ref=e172]
+            - button "Expand all" [ref=e174] [cursor=pointer]
+            - strong [ref=e175]: object
+        - article [ref=e176]:
+          - generic [ref=e177]:
+            - button "ValidationError" [ref=e178] [cursor=pointer]:
+              - generic [ref=e180]: ValidationError
+              - img [ref=e182]
+            - button "Expand all" [ref=e184] [cursor=pointer]
+            - strong [ref=e185]: object

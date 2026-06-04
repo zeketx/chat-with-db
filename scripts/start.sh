@@ -1,81 +1,60 @@
 #!/bin/bash
 
-# Colors for output
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+GREEN=$'\033[0;32m'
+BLUE=$'\033[0;34m'
+RED=$'\033[0;31m'
+NC=$'\033[0m'
 
-echo -e "${BLUE}Starting Natural Language SQL Interface...${NC}"
-
-# Get the script's directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_ROOT="$( dirname "$SCRIPT_DIR" )"
+TIMEOUT=${1:-0}
 
-# Check if .env exists in server directory
-if [ ! -f "$PROJECT_ROOT/app/server/.env" ]; then
-    echo -e "${RED}Warning: No .env file found in app/server/.${NC}"
-    echo "Please:"
-    echo "  1. cd app/server"
-    echo "  2. cp .env.sample .env"
-    echo "  3. Edit .env and add your API keys"
+printf "${BLUE}Starting chat-with-db...${NC}\n"
+
+# Check for .env
+if [ ! -f "$PROJECT_ROOT/.env" ]; then
+    printf "${RED}Error: No .env file found in project root.${NC}\n"
+    echo "Run: cp .env.example .env  then add your OPENAI_API_KEY and DB_URL"
     exit 1
 fi
 
-# Function to cleanup on exit
+# Activate venv if present and not already active
+if [ -z "$VIRTUAL_ENV" ] && [ -f "$PROJECT_ROOT/venv/bin/activate" ]; then
+    source "$PROJECT_ROOT/venv/bin/activate"
+fi
+
 cleanup() {
-    echo -e "\n${BLUE}Shutting down services...${NC}"
-    
-    # Kill all child processes
-    jobs -p | xargs -r kill 2>/dev/null
-    
-    # Wait for processes to terminate
+    printf "\n${BLUE}Shutting down...${NC}\n"
+    jobs -p | xargs kill 2>/dev/null
     wait
-    
-    echo -e "${GREEN}Services stopped successfully.${NC}"
+    printf "${GREEN}Stopped.${NC}\n"
     exit 0
 }
 
-# Trap EXIT, INT, and TERM signals
 trap cleanup EXIT INT TERM
 
-# Start backend
-echo -e "${GREEN}Starting backend server...${NC}"
-cd "$PROJECT_ROOT/app/server"
-uv run python server.py &
-BACKEND_PID=$!
+printf "${GREEN}Starting FastAPI server...${NC}\n"
+cd "$PROJECT_ROOT"
+python main.py &
+SERVER_PID=$!
 
-# Wait for backend to start
-echo "Waiting for backend to start..."
-sleep 3
+sleep 2
 
-# Check if backend is running
-if ! kill -0 $BACKEND_PID 2>/dev/null; then
-    echo -e "${RED}Backend failed to start!${NC}"
+if ! kill -0 $SERVER_PID 2>/dev/null; then
+    printf "${RED}Server failed to start!${NC}\n"
     exit 1
 fi
 
-# Start frontend
-echo -e "${GREEN}Starting frontend server...${NC}"
-cd "$PROJECT_ROOT/app/client"
-npm run dev &
-FRONTEND_PID=$!
-
-# Wait for frontend to start
-sleep 3
-
-# Check if frontend is running
-if ! kill -0 $FRONTEND_PID 2>/dev/null; then
-    echo -e "${RED}Frontend failed to start!${NC}"
-    exit 1
-fi
-
-echo -e "${GREEN}✓ Services started successfully!${NC}"
-echo -e "${BLUE}Frontend: http://localhost:5173${NC}"
-echo -e "${BLUE}Backend:  http://localhost:8000${NC}"
-echo -e "${BLUE}API Docs: http://localhost:8000/docs${NC}"
+printf "${GREEN}✓ Server running${NC}\n"
+printf "${BLUE}API:      http://localhost:8000${NC}\n"
+printf "${BLUE}API Docs: http://localhost:8000/docs${NC}\n"
 echo ""
-echo "Press Ctrl+C to stop all services..."
 
-# Wait for user to press Ctrl+C
-wait
+if [ "$TIMEOUT" != "0" ]; then
+    SECS=$(echo "$TIMEOUT" | sed 's/s$//')
+    echo "Running for ${TIMEOUT}, then stopping..."
+    sleep "$SECS"
+else
+    echo "Press Ctrl+C to stop..."
+    wait
+fi
